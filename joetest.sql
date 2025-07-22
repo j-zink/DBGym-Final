@@ -1,10 +1,8 @@
-
 DROP TABLE IF EXISTS maintenance_log;
 DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS snack_purchase;
 DROP TABLE IF EXISTS snack_bar;
 DROP TABLE IF EXISTS members;
-
 
 CREATE TABLE members(
     member_id INT PRIMARY KEY,
