@@ -3,10 +3,19 @@ DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS snack_purchase;
 DROP TABLE IF EXISTS snack_bar;
 DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS memberships;
+
+CREATE TABLE memberships(
+    membership_type_id INT PRIMARY KEY NOT NULL,
+    membership_status VARCHAR(10)
+);
 
 CREATE TABLE members(
-    member_id INT PRIMARY KEY,
-    column1 VARCHAR(20)
+    member_id INT PRIMARY KEY AUTO_INCREMENT,
+    BirthDate DATE,
+    PhoneNum VARCHAR(15),
+    membership_type_id INT NOT NULL,
+    FOREIGN KEY(membership_type_id) REFERENCES memberships(membership_type_id)
     );
 
 CREATE TABLE equipment (
