@@ -1,7 +1,13 @@
-CREATE TABLE members
-(
-    column1 str,
-);
+DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS maintenance_log;
+DROP TABLE IF EXISTS equipment;
+DROP TABLE IF EXISTS snack_bar;
+DROP TABLE IF EXISTS snack_purchase;
+
+CREATE TABLE members(
+    member_id INT PRIMARY KEY,
+    column1 VARCHAR(20)
+    );
 
 CREATE TABLE equipment (
     serial_number VARCHAR(20) PRIMARY KEY,
