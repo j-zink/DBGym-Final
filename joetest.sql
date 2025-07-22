@@ -1,5 +1,7 @@
 CREATE TABLE members (
-    column1 str,
+    PhoneNum VARCHAR(15),
+    BirthDate DATE,
+    
 );
 
 CREATE TABLE TEST(
