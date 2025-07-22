@@ -1,6 +1,6 @@
 CREATE TABLE members
 (
-    column1 str,
+    column1 VARCHAR(20) PRIMARY KEY,
 );
 
 CREATE TABLE equipment
@@ -14,7 +14,8 @@ CREATE TABLE maintenance_log (
     serial_number VARCHAR
 (20),
     date DATE,
-    description TEXT,
+    description VARCHAR
+(100),
     technician VARCHAR
 (30),
     FOREIGN KEY
@@ -40,7 +41,7 @@ CREATE TABLE snack_purchase (
 (10,2),
     purchase_date DATE,
     FOREIGN KEY
-(member_id) REFERENCES member
+(member_id) REFERENCES members
 (member_id),
     FOREIGN KEY
 (product_id) REFERENCES snack_bar
