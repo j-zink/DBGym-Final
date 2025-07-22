@@ -3,8 +3,7 @@ CREATE TABLE members
     column1 str,
 );
 
-CREATE TABLE equipment
-(
+CREATE TABLE equipment(
     serial_number VARCHAR(20) PRIMARY KEY,
     location VARCHAR(20)
 );
