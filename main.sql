@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS memberships;
 
 CREATE TABLE memberships(
     membership_type_id INT PRIMARY KEY NOT NULL,
-    membership_status VARCHAR(10)
+    membership_status VARCHAR(10),
+    price DECIMAL(3,2)
 );
 
 CREATE TABLE members(
@@ -49,3 +50,9 @@ CREATE TABLE snack_purchase (
     FOREIGN KEY(member_id) REFERENCES members(member_id),
     FOREIGN KEY(product_id) REFERENCES snack_bar(product_id)
 );
+
+
+INSERT INTO memberships
+VALUES (1, "Gold", 104.99);
+
+SELECT * FROM memberships
