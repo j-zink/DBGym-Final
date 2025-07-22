@@ -1,14 +1,23 @@
+#Drop tables if exist
 DROP TABLE IF EXISTS maintenance_log;
 DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS snack_purchase;
 DROP TABLE IF EXISTS snack_bar;
 DROP TABLE IF EXISTS members;
 DROP TABLE IF EXISTS memberships;
+DROP TABLE IF EXISTS dependents;
 
+#Tables
 CREATE TABLE memberships(
     membership_type_id INT PRIMARY KEY NOT NULL,
     membership_status VARCHAR(10),
-    price DECIMAL(3,2)
+    price DECIMAL(9,2)
+);
+
+CREATE TABLE dependents(
+    dependent_id INT PRIMARY KEY,
+    dependent_rank INT,
+    relationship VARCHAR(20)
 );
 
 CREATE TABLE members(
@@ -16,7 +25,9 @@ CREATE TABLE members(
     BirthDate DATE,
     PhoneNum VARCHAR(15),
     membership_type_id INT NOT NULL,
-    FOREIGN KEY(membership_type_id) REFERENCES memberships(membership_type_id)
+    dependents BOOL,
+    FOREIGN KEY(membership_type_id) REFERENCES memberships(membership_type_id),
+    FOREIGN KEY(member_id) REFERENCES dependents(dependent_id)
     );
 
 CREATE TABLE equipment (
@@ -52,7 +63,10 @@ CREATE TABLE snack_purchase (
 );
 
 
+#Queries
 INSERT INTO memberships
-VALUES (1, "Gold", 104.99);
+VALUES (1, "Bronze", 19.99),
+    (2, "Gold", 49.99),
+    (3, "Plainum", 89.99);
 
 SELECT * FROM memberships
