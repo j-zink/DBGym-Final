@@ -60,6 +60,7 @@ CREATE TABLE platinum_members(
 
 CREATE TABLE equipment (
     serial_number VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(40),
     location VARCHAR(20)
 );
 
@@ -183,6 +184,25 @@ VALUES  (1, 1, "Hannah Thornock", "2004-01-07", "Girlfriend"),
         (22, 1, "Tina White", "2026-11-29", "Sister"),
         (22, 2, "Zoe Black", "2027-12-30", "Daughter");
 
+INSERT INTO equipment (`serial_number`, `name`, `location`)
+VALUES  ("EQ12345", "Treadmill", "Cardio Room"),
+        ("EQ12346", "Elliptical", "Cardio Room"),
+        ("EQ12347", "Weight Machine", "Strength Room"),
+        ("EQ12348", "Yoga Mat", "Yoga Room"),
+        ("EQ12349", "Pool Filter", "Swimming Pool"),
+        ("EQ12350", "Spin Bike", "Cycling Room"),
+        ("EQ12351", "Free Weights Set", "Strength Room"),
+        ("EQ12352", "Stretching Mat", "Stretching Area");
+
+INSERT INTO maintenance_log (`serial_number`, `date`, `description`, `technician`)
+VALUES  ("EQ12345", "2023-01-01", "Treadmill calibration and belt adjustment", "John Smith"),
+        ("EQ12346", "2023-01-02", "Elliptical software update", "Jane Doe"),
+        ("EQ12347", "2023-01-03", "Weight machine lubrication", "Mike Johnson"),
+        ("EQ12348", "2023-01-04", "Yoga mat replacement", "Sarah Brown"),
+        ("EQ12349", "2023-01-05", "Pool filter cleaning and maintenance", "Tom White"),
+        ("EQ12350", "2023-01-06", "Spin bike resistance check", "Emily Green"),
+        ("EQ12351", "2023-01-07", "Free weights inventory and organization", "Chris Black"),
+        ("EQ12352", "2023-01-08", "Stretching mat cleaning and inspection", "Anna Blue");
 
 INSERT INTO snack_bar (`product_name`, `price`, `quantity`)
 VALUES  ("Protein Bar", 2.50, 100),
@@ -227,5 +247,7 @@ SELECT * FROM dependents;
 SELECT * FROM bronze_members;
 SELECT * FROM gold_members;
 SELECT * FROM platinum_members;
+SELECT * FROM equipment;
+SELECT * FROM maintenance_log;
 SELECT * FROM snack_bar;
 SELECT * FROM snack_purchase;
