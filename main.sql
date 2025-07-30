@@ -84,6 +84,47 @@ CREATE TABLE snack_purchase (
     FOREIGN KEY(product_id) REFERENCES snack_bar(product_id)
 );
 
+CREATE TABLE weight_class (
+    class_id INT PRIMARY KEY AUTO_INCREMENT,
+    instructor VARCHAR(40),
+    schedule VARCHAR(40),
+    class_name VARCHAR(40),
+    member_id INT,
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+);
+
+CREATE TABLE cardio_class (
+    class_id INT PRIMARY KEY AUTO_INCREMENT,
+    instructor VARCHAR(40),
+    schedule VARCHAR(40),
+    class_name VARCHAR(40),
+    member_id INT,
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+);
+
+CREATE TABLE water_class (
+    class_id INT PRIMARY KEY AUTO_INCREMENT,
+    instructor VARCHAR(40),
+    schedule VARCHAR(40),
+    class_name VARCHAR(40),
+    member_id INT,
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+);
+
+CREATE TABLE employee (
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    emp_role VARCHAR(40),
+);
+
+CREATE TABLE manager (
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    emp_role VARCHAR(40),
+);
+
 #Queries
 INSERT INTO members (`first_name`, `last_name`, `birth_date`, `phone_num`, `membership_type`, `dependents`)
 VALUES  ("Joe", "Zink", "2001-11-05", "1234567890", "platinum", TRUE),
