@@ -215,6 +215,7 @@ VALUES  ("Protein Bar", 2.50, 100),
         ("Trail Mix", 3.50, 60),
         ("Yogurt Cup", 2.75, 90),
         ("Veggie Chips", 2.25, 110);
+        
 INSERT INTO snack_purchase (`member_id`, `product_id`, `quantity`, `total_price`, `purchase_date`)
 VALUES  (1, 1, 2, 5.00, "2023-01-02"),
         (2, 2, 1, 3.00, "2023-01-03"),
