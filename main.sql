@@ -4,10 +4,16 @@ DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS snack_purchase;
 DROP TABLE IF EXISTS snack_bar;
 DROP TABLE IF EXISTS dependents;
+DROP TABLE IF EXISTS weight_class;
+DROP TABLE IF EXISTS cardio_class;
+DROP TABLE IF EXISTS water_class;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS manager;
 DROP TABLE IF EXISTS members;
 DROP TABLE IF EXISTS bronze_members;
 DROP TABLE IF EXISTS gold_members;
 DROP TABLE IF EXISTS platinum_members;
+
 
 
 #Tables
@@ -90,7 +96,7 @@ CREATE TABLE weight_class (
     schedule VARCHAR(40),
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(member_id) REFERENCES members(member_id)
 );
 
 CREATE TABLE cardio_class (
@@ -99,7 +105,7 @@ CREATE TABLE cardio_class (
     schedule VARCHAR(40),
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(member_id) REFERENCES members(member_id)
 );
 
 CREATE TABLE water_class (
@@ -108,21 +114,21 @@ CREATE TABLE water_class (
     schedule VARCHAR(40),
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(member_id) REFERENCES members(member_id)
 );
 
 CREATE TABLE employee (
     employee_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
-    emp_role VARCHAR(40),
+    emp_role VARCHAR(40)
 );
 
 CREATE TABLE manager (
     employee_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
-    emp_role VARCHAR(40),
+    emp_role VARCHAR(40)
 );
 
 #Queries
@@ -177,6 +183,30 @@ VALUES  (1, 1, "Hannah Thornock", "2004-01-07", "Girlfriend"),
         (22, 1, "Tina White", "2026-11-29", "Sister"),
         (22, 2, "Zoe Black", "2027-12-30", "Daughter");
 
+
+INSERT INTO snack_bar (`product_name`, `price`, `quantity`)
+VALUES  ("Protein Bar", 2.50, 100),
+        ("Energy Drink", 3.00, 50),
+        ("Water Bottle", 1.00, 200),
+        ("Snack Pack", 4.00, 75),
+        ("Fruit Smoothie", 5.00, 30),
+        ("Granola Bar", 2.00, 120),
+        ("Chocolate Bar", 1.50, 80),
+        ("Trail Mix", 3.50, 60),
+        ("Yogurt Cup", 2.75, 90),
+        ("Veggie Chips", 2.25, 110);
+INSERT INTO snack_purchase (`member_id`, `product_id`, `quantity`, `total_price`, `purchase_date`)
+VALUES  (1, 1, 2, 5.00, "2023-01-02"),
+        (2, 2, 1, 3.00, "2023-01-03"),
+        (3, 3, 5, 5.00, "2023-01-04"),
+        (4, 4, 3, 12.00, "2023-01-05"),
+        (5, 5, 2, 10.00, "2023-01-06"),
+        (6, 6, 4, 8.00, "2023-01-07"),
+        (7, 7, 1, 1.50, "2023-01-08"),
+        (8, 8, 6, 21.00, "2023-01-09"),
+        (9, 9, 2, 5.50, "2023-01-10"),
+        (10, 10, 1, 2.25, "2023-01-11");
+
 INSERT INTO bronze_members (`member_id`, first_name, last_name)
 SELECT member_id, first_name, last_name
 FROM members
@@ -197,3 +227,5 @@ SELECT * FROM dependents;
 SELECT * FROM bronze_members;
 SELECT * FROM gold_members;
 SELECT * FROM platinum_members;
+SELECT * FROM snack_bar;
+SELECT * FROM snack_purchase;
