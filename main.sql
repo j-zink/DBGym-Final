@@ -1,5 +1,5 @@
 #Drop tables
-if exist
+DROP TABLE IF EXISTS trainer_session;
 DROP TABLE IF EXISTS maintenance_log;
 DROP TABLE IF EXISTS equipment;
 DROP TABLE IF EXISTS snack_purchase;
@@ -59,6 +59,20 @@ CREATE TABLE platinum_members(
     monthly_fee DECIMAL(9,2) DEFAULT 30.00
 );
 
+CREATE TABLE employee(
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    emp_role VARCHAR(40)
+);
+
+CREATE TABLE manager(
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    emp_role VARCHAR(40)
+);
+
 CREATE TABLE equipment(
     serial_number VARCHAR(20) PRIMARY KEY,
     name VARCHAR(40),
@@ -97,52 +111,35 @@ CREATE TABLE snack_purchase(
 
 CREATE TABLE weight_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
-    instructor VARCHAR(40),
+    instructor INT NOT NULL,
     session_date DATE NOT NULL,
     session_time TIME NOT NULL,
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id)
-    FOREIGN KEY(session_date) REFERENCES trainer_session(session_date),
-    FOREIGN KEY(session_time) REFERENCES trainer_session(session_time)
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
 CREATE TABLE cardio_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
-    instructor VARCHAR(40),
+    instructor INT NOT NULL,
     session_date DATE NOT NULL,
     session_time TIME NOT NULL,
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id)
-    FOREIGN KEY(session_date) REFERENCES trainer_session(session_date),
-    FOREIGN KEY(session_time) REFERENCES trainer_session(session_time)
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
 CREATE TABLE water_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
-    instructor VARCHAR(40),
+    instructor INT NOT NULL,
     session_date DATE NOT NULL,
     session_time TIME NOT NULL,
     class_name VARCHAR(40),
     member_id INT,
-    FOREIGN KEY(member_id) REFERENCES members(member_id)
-    FOREIGN KEY(session_date) REFERENCES trainer_session(session_date),
-    FOREIGN KEY(session_time) REFERENCES trainer_session(session_time)
-);
-
-CREATE TABLE employee(
-    employee_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(40),
-    last_name VARCHAR(40),
-    emp_role VARCHAR(40)
-);
-
-CREATE TABLE manager(
-    employee_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(40),
-    last_name VARCHAR(40),
-    emp_role VARCHAR(40)
+    FOREIGN KEY(member_id) REFERENCES members(member_id),
+    FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
 CREATE TABLE trainer_session(
@@ -209,6 +206,19 @@ VALUES  (1, 1, "Hannah Thornock", "2004-01-07", "Girlfriend"),
         (22, 1, "Tina White", "2026-11-29", "Sister"),
         (22, 2, "Zoe Black", "2027-12-30", "Daughter");
 
+INSERT INTO employee (first_name, last_name, emp_role) VALUES
+  ('George', 'Harris', 'Trainer'),
+  ('Emily', 'Clark', 'Trainer'),
+  ('Ryan', 'Young', 'Trainer'),
+  ('Samantha', 'Evans', 'Trainer'),
+  ('Peter', 'Lopez', 'Assistant Trainer'),
+  ('Hannah', 'Brooks', 'Maintenance'),
+  ('Victor', 'Foster', 'Maintenance'),
+  ('Leah', 'Patterson', 'Snack Bar Operator'),
+  ('Aaron', 'Reed', 'Front Desk'),
+  ('Jasmine', 'Cole', 'Wellness Coach');
+
+
 INSERT INTO equipment(`serial_number`, `name`, `location`)
 VALUES  ("EQ12345", "Treadmill", "Cardio Room"),
         ("EQ12346", "Elliptical", "Cardio Room"),
@@ -220,12 +230,12 @@ VALUES  ("EQ12345", "Treadmill", "Cardio Room"),
         ("EQ12352", "Stretching Mat", "Stretching Area");
 
 INSERT INTO maintenance_log(`serial_number`, `date`, `description`, `employee_id`)
-VALUES  ("EQ12345", "2023-01-01", "Treadmill calibration and belt adjustment", 5),
+VALUES  ("EQ12345", "2023-01-01", "Treadmill calibration and belt adjustment", 6),
         ("EQ12346", "2023-01-02", "Elliptical software update", 6),
         ("EQ12347", "2023-01-03", "Weight machine lubrication", 7),
         ("EQ12348", "2023-01-04", "Yoga mat replacement", 7),
         ("EQ12349", "2023-01-05", "Pool filter cleaning and maintenance", 7),
-        ("EQ12350", "2023-01-06", "Spin bike resistance check", 5),
+        ("EQ12350", "2023-01-06", "Spin bike resistance check", 6),
         ("EQ12351", "2023-01-07", "Free weights inventory and organization", 6),
         ("EQ12352", "2023-01-08", "Stretching mat cleaning and inspection", 6);
 
@@ -241,17 +251,17 @@ VALUES  ("Protein Bar", 2.50, 100),
         ("Yogurt Cup", 2.75, 90),
         ("Veggie Chips", 2.25, 110);
 
-INSERT INTO snack_purchase(`member_id`, `product_id`, `quantity`, `total_price`, `purchase_date`, 'employee_id')
-VALUES  (1, 1, 2, 5.00, "2023-01-02", 9),
-        (2, 2, 1, 3.00, "2023-01-03", 10),
-        (3, 3, 5, 5.00, "2023-01-04", 10),
-        (4, 4, 3, 12.00, "2023-01-05", 9),
-        (5, 5, 2, 10.00, "2023-01-06", 10),
-        (6, 6, 4, 8.00, "2023-01-07", 9),
-        (7, 7, 1, 1.50, "2023-01-08", 9),
-        (8, 8, 6, 21.00, "2023-01-09", 9),
-        (9, 9, 2, 5.50, "2023-01-10", 10),
-        (10, 10, 1, 2.25, "2023-01-11", 10);
+INSERT INTO snack_purchase(`member_id`, `product_id`, `quantity`, `total_price`, `purchase_date`)
+VALUES  (1, 1, 2, 5.00, "2023-01-02"),
+        (2, 2, 1, 3.00, "2023-01-03"),
+        (3, 3, 5, 5.00, "2023-01-04"),
+        (4, 4, 3, 12.00, "2023-01-05"),
+        (5, 5, 2, 10.00, "2023-01-06"),
+        (6, 6, 4, 8.00, "2023-01-07"),
+        (7, 7, 1, 1.50, "2023-01-08"),
+        (8, 8, 6, 21.00, "2023-01-09"),
+        (9, 9, 2, 5.50, "2023-01-10"),
+        (10, 10, 1, 2.25, "2023-01-11");
 
 INSERT INTO trainer_session(trainer_id, member_id, session_date, session_time, duration_minutes)
 VALUES  (1, 1, '2025-07-01', '09:00:00', 60),
@@ -276,52 +286,40 @@ VALUES  (1, 1, '2025-07-01', '09:00:00', 60),
         (5, 1, '2025-07-20', '12:20:00', 30);
 
 INSERT INTO weight_class (instructor, session_date, session_time, class_name, member_id) VALUES
-  ('James Miller', '2025-08-05', '08:00:00', 'Intro Weight Class', 1),
-  ('Liam Brown', '2025-08-06', '09:30:00', 'Power Lifting', 2),
-  ('Logan Reed', '2025-08-09', '06:15:00', 'Hybrid Lift', 3),
-  ('James Miller', '2025-08-05', '08:00:00', 'Power Lifting', 4),
-  ('Liam Brown', '2025-08-06', '09:30:00', 'Hybrid Lift', 5),
-  ('Logan Reed', '2025-08-09', '06:15:00', 'Intro Weight Class', 6),
-  ('James Miller', '2025-08-05', '08:00:00', 'Hybrid Lift', 7),
-  ('Liam Brown', '2025-08-06', '09:30:00', 'Intro Weight Class', 8),
-  ('Logan Reed', '2025-08-09', '06:15:00', 'Power Lifting', 9),
-  ('James Miller', '2025-08-05', '08:00:00', 'Intro Weight Class', 10);
+  (2, '2025-08-05', '08:00:00', 'Intro Weight Class', 1),
+  (4, '2025-08-06', '09:30:00', 'Power Lifting', 2),
+  (3, '2025-08-09', '06:15:00', 'Hybrid Lift', 3),
+  (2, '2025-08-05', '08:00:00', 'Power Lifting', 4),
+  (4, '2025-08-06', '09:30:00', 'Hybrid Lift', 5),
+  (3, '2025-08-09', '06:15:00', 'Intro Weight Class', 6),
+  (2, '2025-08-05', '08:00:00', 'Hybrid Lift', 7),
+  (4, '2025-08-06', '09:30:00', 'Intro Weight Class', 8),
+  (3, '2025-08-09', '06:15:00', 'Power Lifting', 9),
+  (2, '2025-08-05', '08:00:00', 'Intro Weight Class', 10);
 
 INSERT INTO cardio_class (instructor, session_date, session_time, class_name, member_id) VALUES
-  ('Mia Walker', '2025-08-08', '18:45:00', 'Bootcamp Cardio', 1),
-  ('Olivia Scott', '2025-08-06', '11:00:00', 'HIIT Class', 2),
-  ('Noah Davis', '2025-08-07', '07:00:00', 'Cycling Class', 3),
-  ('Mia Walker', '2025-08-08', '18:45:00', 'HIIT Class', 4),
-  ('Olivia Scott', '2025-08-06', '11:00:00', 'Bootcamp Cardio', 5),
-  ('Noah Davis', '2025-08-07', '07:00:00', 'Cycling Class', 6),
-  ('Mia Walker', '2025-08-08', '18:45:00', 'Cycling Class', 7),
-  ('Olivia Scott', '2025-08-06', '11:00:00', 'HIIT Class', 8),
-  ('Noah Davis', '2025-08-07', '07:00:00', 'Bootcamp Cardio', 9),
-  ('Mia Walker', '2025-08-08', '18:45:00', 'Cycling Class', 10);
+  (3, '2025-08-08', '18:45:00', 'Bootcamp Cardio', 1),
+  (4, '2025-08-06', '11:00:00', 'HIIT Class', 2),
+  (5, '2025-08-07', '07:00:00', 'Cycling Class', 3),
+  (3, '2025-08-08', '18:45:00', 'HIIT Class', 4),
+  (4, '2025-08-06', '11:00:00', 'Bootcamp Cardio', 5),
+  (5, '2025-08-07', '07:00:00', 'Cycling Class', 6),
+  (3, '2025-08-08', '18:45:00', 'Cycling Class', 7),
+  (4, '2025-08-06', '11:00:00', 'HIIT Class', 8),
+  (5, '2025-08-07', '07:00:00', 'Bootcamp Cardio', 9),
+  (3, '2025-08-08', '18:45:00', 'Cycling Class', 10);
 
 INSERT INTO water_class (instructor, session_date, session_time, class_name, member_id) VALUES
-  ('Chloe Diaz', '2025-08-09', '14:00:00', 'Water Yoga', 1),
-  ('Sophia Green', '2025-08-07', '12:00:00', 'Water Aerobics', 2),
-  ('Chloe Diaz', '2025-08-09', '14:00:00', 'Intro to Swimming', 3),
-  ('Sophia Green', '2025-08-07', '12:00:00', 'Water Yoga', 4),
-  ('Chloe Diaz', '2025-08-09', '14:00:00', 'Water Aerobics', 5),
-  ('Sophia Green', '2025-08-07', '12:00:00', 'Intro to Swimming', 6),
-  ('Chloe Diaz', '2025-08-09', '14:00:00', 'Intro to Swimming', 7),
-  ('Sophia Green', '2025-08-07', '12:00:00', 'Water Aerobics', 8),
-  ('Chloe Diaz', '2025-08-09', '14:00:00', 'Water Yoga', 9),
-  ('Sophia Green', '2025-08-07', '12:00:00', 'Intro to Swimming', 10);
-
-INSERT INTO employee (first_name, last_name, emp_role) VALUES
-  ('George', 'Harris', 'Receptionist'),
-  ('Emily', 'Clark', 'Trainer'),
-  ('Ryan', 'Young', 'Maintenance'),
-  ('Samantha', 'Evans', 'Cleaner'),
-  ('Peter', 'Lopez', 'Assistant Trainer'),
-  ('Hannah', 'Brooks', 'Membership Coordinator'),
-  ('Victor', 'Foster', 'Equipment Manager'),
-  ('Leah', 'Patterson', 'Nutritionist'),
-  ('Aaron', 'Reed', 'Front Desk'),
-  ('Jasmine', 'Cole', 'Wellness Coach');
+  (1, '2025-08-09', '14:00:00', 'Water Yoga', 1),
+  (2, '2025-08-07', '12:00:00', 'Water Aerobics', 2),
+  (1, '2025-08-09', '14:00:00', 'Intro to Swimming', 3),
+  (2, '2025-08-07', '12:00:00', 'Water Yoga', 4),
+  (1, '2025-08-09', '14:00:00', 'Water Aerobics', 5),
+  (2, '2025-08-07', '12:00:00', 'Intro to Swimming', 6),
+  (1, '2025-08-09', '14:00:00', 'Intro to Swimming', 7),
+  (2, '2025-08-07', '12:00:00', 'Water Aerobics', 8),
+  (1, '2025-08-09', '14:00:00', 'Water Yoga', 9),
+  (2, '2025-08-07', '12:00:00', 'Intro to Swimming', 10);
 
 INSERT INTO manager (first_name, last_name, emp_role) VALUES
   ('Laura', 'Evans', 'General Manager'),
@@ -355,7 +353,13 @@ SELECT * FROM dependents;
 SELECT * FROM bronze_members;
 SELECT * FROM gold_members;
 SELECT * FROM platinum_members;
+SELECT * FROM employee;
+SELECT * FROM manager;
+SELECT * FROM trainer_session;
 SELECT * FROM equipment;
 SELECT * FROM maintenance_log;
 SELECT * FROM snack_bar;
 SELECT * FROM snack_purchase;
+SELECT * FROM weight_class;
+SELECT * FROM cardio_class;
+SELECT * FROM water_class;
