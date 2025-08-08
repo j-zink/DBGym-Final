@@ -1,24 +1,7 @@
-#Drop tables
-DROP TABLE IF EXISTS trainer_session;
-DROP TABLE IF EXISTS maintenance_log;
-DROP TABLE IF EXISTS equipment;
-DROP TABLE IF EXISTS snack_purchase;
-DROP TABLE IF EXISTS snack_bar;
-DROP TABLE IF EXISTS dependents;
-DROP TABLE IF EXISTS weight_class;
-DROP TABLE IF EXISTS cardio_class;
-DROP TABLE IF EXISTS water_class;
-DROP TABLE IF EXISTS employee;
-DROP TABLE IF EXISTS manager;
-DROP TABLE IF EXISTS members;
-DROP TABLE IF EXISTS bronze_members;
-DROP TABLE IF EXISTS gold_members;
-DROP TABLE IF EXISTS platinum_members;
-
-
+USE dbgym;
 
 #Tables
-CREATE TABLE members(
+CREATE TABLE IF NOT EXISTS members(
     member_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -28,7 +11,7 @@ CREATE TABLE members(
     dependents BOOL DEFAULT FALSE
 );
 
-CREATE TABLE dependents(
+CREATE TABLE IF NOT EXISTS dependents(
     main_member_id INT NOT NULL,
     dependent_id INT,
     name VARCHAR(30),
@@ -38,48 +21,48 @@ CREATE TABLE dependents(
     FOREIGN KEY(main_member_id) REFERENCES members(member_id)
 );
 
-CREATE TABLE bronze_members(
+CREATE TABLE IF NOT EXISTS bronze_members(
     member_id INT PRIMARY KEY NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     monthly_fee DECIMAL(9,2) DEFAULT 10.00
 );
 
-CREATE TABLE gold_members(
+CREATE TABLE IF NOT EXISTS gold_members(
     member_id INT PRIMARY KEY NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     monthly_fee DECIMAL(9,2) DEFAULT 20.00
 );
 
-CREATE TABLE platinum_members(
+CREATE TABLE IF NOT EXISTS platinum_members(
     member_id INT PRIMARY KEY NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     monthly_fee DECIMAL(9,2) DEFAULT 30.00
 );
 
-CREATE TABLE employee(
+CREATE TABLE IF NOT EXISTS employee(
     employee_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
     emp_role VARCHAR(40)
 );
 
-CREATE TABLE manager(
+CREATE TABLE IF NOT EXISTS manager(
     employee_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(40),
     last_name VARCHAR(40),
     emp_role VARCHAR(40)
 );
 
-CREATE TABLE equipment(
+CREATE TABLE IF NOT EXISTS equipment(
     serial_number VARCHAR(20) PRIMARY KEY,
     name VARCHAR(40),
     location VARCHAR(20)
 );
 
-CREATE TABLE maintenance_log(
+CREATE TABLE IF NOT EXISTS maintenance_log(
     log_id INT PRIMARY KEY AUTO_INCREMENT,
     serial_number VARCHAR(20),
     employee_id INT,
@@ -89,14 +72,14 @@ CREATE TABLE maintenance_log(
     FOREIGN KEY(employee_id) REFERENCES employee(employee_id)
 );
 
-CREATE TABLE snack_bar(
+CREATE TABLE IF NOT EXISTS snack_bar(
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     product_name VARCHAR(40),
     price DECIMAL(10,2),
     quantity INT
 );
 
-CREATE TABLE snack_purchase(
+CREATE TABLE IF NOT EXISTS snack_purchase(
     purchase_id INT PRIMARY KEY AUTO_INCREMENT,
     member_id INT,
     employee_id INT,
@@ -109,7 +92,7 @@ CREATE TABLE snack_purchase(
     FOREIGN KEY(employee_id) REFERENCES employee(employee_id)
 );
 
-CREATE TABLE weight_class(
+CREATE TABLE IF NOT EXISTS weight_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
     instructor INT NOT NULL,
     session_date DATE NOT NULL,
@@ -120,7 +103,7 @@ CREATE TABLE weight_class(
     FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
-CREATE TABLE cardio_class(
+CREATE TABLE IF NOT EXISTS cardio_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
     instructor INT NOT NULL,
     session_date DATE NOT NULL,
@@ -131,7 +114,7 @@ CREATE TABLE cardio_class(
     FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
-CREATE TABLE water_class(
+CREATE TABLE IF NOT EXISTS water_class(
     class_id INT PRIMARY KEY AUTO_INCREMENT,
     instructor INT NOT NULL,
     session_date DATE NOT NULL,
@@ -142,7 +125,7 @@ CREATE TABLE water_class(
     FOREIGN KEY(instructor) REFERENCES employee(employee_id)
 );
 
-CREATE TABLE trainer_session(
+CREATE TABLE IF NOT EXISTS trainer_session(
     session_id INT PRIMARY KEY AUTO_INCREMENT,
     trainer_id INT NOT NULL,
     member_id INT NOT NULL,
